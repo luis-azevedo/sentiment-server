@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: luis.azevedo@sabre.com
+  description: This is a simple a hello world API
+  title: Simple Sentiment Analysis API
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /sentiment:
+    get:
+      description: |
+        By passing in a sentence the service will return positive or negative.
+      operationId: sentiment_analysis
+      parameters:
+      - description: pass string with a sentence
+        explode: true
+        in: query
+        name: sentence
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sentimentAnalysis'
+          description: Sentiment analysis result
+        "400":
+          description: bad input parameter
+      summary: Given a sentence it analyses whether the sentiment is positive or negative
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  schemas:
+    sentimentAnalysis:
+      example:
+        sentiment: positive
+      properties:
+        sentiment:
+          example: positive
+          title: sentiment
+          type: string
+      title: sentimentAnalysis
+      type: object
